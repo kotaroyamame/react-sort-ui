@@ -6,6 +6,7 @@ import React, {
   useLayoutEffect,
   useRef,
   Ref,
+  forwardRef,
   useImperativeHandle
 } from 'react'
 import ReactDOM from 'react-dom'
@@ -13,21 +14,22 @@ import ReactDOM from 'react-dom'
 import { NList, CanvasController, Wait } from './utils'
 import { Show, SortFn } from './types'
 
-function App ({
-  list,
-  sortFn,
-  width = 200,
-  height = 200,
-  autoPlay = false,
+const App = forwardRef(function App (
+  {
+    list,
+    sortFn,
+    width = 200,
+    height = 200,
+    autoPlay = false
+  }: {
+    list: Array<number>
+    width?: number
+    height?: number
+    sortFn?: SortFn
+    autoPlay?: boolean
+  },
   ref
-}: {
-  list: Array<number>
-  width?: number
-  height?: number
-  sortFn?: SortFn
-  ref?: any
-  autoPlay?: boolean
-}) {
+) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null)
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
@@ -187,10 +189,20 @@ function App ({
       sort(sList, show)
     }
   }, [context])
-  useImperativeHandle(ref, () => {
-    const Reset: () => void = reset;
-    const Start: SortFn= sort;
-  })
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        Reset () {
+          reset()
+        },
+        Start () {
+          sort(sList, show)
+        }
+      }
+    },
+    []
+  )
 
   return (
     <canvas
@@ -201,6 +213,6 @@ function App ({
       width={width}
     />
   )
-}
+})
 
 export default App
