@@ -32,13 +32,7 @@ const App = forwardRef(function App (
   ref
 ) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(
-    canvasRef.current
-  )
-  const __canvas = canvasRef.current
-  const [context, setContext] = useState<CanvasRenderingContext2D | null>(
-    __canvas?.getContext('2d') || null
-  )
+  const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
   const [loaded, setLoaded] = useState(false)
   const [sList, setSList] = useState(new NList(list))
   const [fWidth, setWidth] = React.useState(0)
@@ -53,18 +47,8 @@ const App = forwardRef(function App (
   let fieldWidth: number = 0
   let fieldHeight: number = 0
   let widthCoeff: number = 1
-  const resize = () => {
-    if (canvas != null) {
-      stageW = width * devicePixelRatio
-      stageH = width * devicePixelRatio
-
-      canvas.width = stageW
-      canvas.height = stageH
-    }
-  }
   const reset = () => {
     sList.shuffle()
-    initContext(canvasRef.current)
     draw()
   }
 
@@ -165,28 +149,20 @@ const App = forwardRef(function App (
           last--
         }
       }
-  function initContext (cRef: HTMLCanvasElement | null) {
-    if (canvas && context) {
+  const callbackRef = useCallback((cRef: HTMLCanvasElement | null) => {
+    if (cRef === null) {
       return
     }
-    const _canvas = cRef
-    if (_canvas != null) {
-      const canvasContext = _canvas.getContext('2d')
-      setCanvas(_canvas)
-      if (canvasContext) {
-        setContext(canvasContext)
-      }
-    }
-  }
-  useEffect(() => {
-    initContext(canvasRef.current)
+    setContext(cRef.getContext('2d'))
   }, [])
+  // useEffect(() => {
+  //   initContext(canvasRef.current)
+  // }, [])
   useEffect(() => {
     if (window.ResizeObserver) {
       const observer = new window.ResizeObserver(entries => {
         entries.forEach(el => {
           setWidth(el.contentRect.width)
-          resize()
         })
       })
       if (canvasRef.current) {
@@ -221,7 +197,7 @@ const App = forwardRef(function App (
 
   return (
     <canvas
-      ref={canvasRef}
+      ref={callbackRef}
       id='andy-sortui'
       className='andy-sortui'
       height={height}
