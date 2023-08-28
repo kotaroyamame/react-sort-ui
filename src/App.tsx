@@ -2,6 +2,7 @@ import './App.css'
 
 import React, {
   useState,
+  useCallback,
   useEffect,
   useLayoutEffect,
   useRef,
@@ -31,7 +32,9 @@ const App = forwardRef(function App (
   ref
 ) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null)
+  const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(
+    canvasRef.current
+  )
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
   const [loaded, setLoaded] = useState(false)
   const [sList, setSList] = useState(new NList(list))
@@ -58,7 +61,7 @@ const App = forwardRef(function App (
   }
   const reset = () => {
     sList.shuffle()
-    initContext()
+    initContext(canvasRef.current)
     draw()
   }
 
@@ -159,18 +162,18 @@ const App = forwardRef(function App (
           last--
         }
       }
-  function initContext () {
-    const _canvas = canvasRef.current
+  function initContext (cRef: HTMLCanvasElement | null) {
+    const _canvas = cRef
     if (_canvas != null) {
-      setCanvas(_canvas)
       const canvasContext = _canvas.getContext('2d')
+      setCanvas(_canvas)
       if (canvasContext) {
         setContext(canvasContext)
       }
     }
   }
   useEffect(() => {
-    initContext()
+    initContext(canvasRef.current)
   }, [])
   useEffect(() => {
     if (window.ResizeObserver) {
