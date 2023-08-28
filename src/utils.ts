@@ -88,3 +88,6 @@ export class CanvasController {
   //   }
   // }
 }
+export async function Wait(x: number = 1000) {
+  await new Promise(r => { setTimeout(() => r(true), x) });
+}

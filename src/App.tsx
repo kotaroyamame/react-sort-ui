@@ -2,13 +2,11 @@ import './App.css';
 
 import React, { useState, useEffect, useLayoutEffect, useRef, Ref } from "react"
 import ReactDOM from "react-dom"
-export async function Wait(x: number = 1000) {
-  await new Promise(r => { setTimeout(() => r(true), x) });
-}
-import { NList, CanvasController } from "./utils";
-import { Show } from './types';
 
-function App(this: any, { list, sortFn,width=200,height=200 }: { list: Array<number>,width?:number,height?:number sortFn?: (l: NList, f: (n: number) => Promise<void>) => void, ref?: any }) {
+import { NList, CanvasController,Wait } from "./utils";
+import { Show, SortFn } from './types';
+
+function App(this: any, { list, sortFn, width = 200, height = 200 }: { list: Array<number>, width?: number, height?: number, sortFn?: SortFn, ref?: any }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
@@ -96,7 +94,7 @@ function App(this: any, { list, sortFn,width=200,height=200 }: { list: Array<num
 
   }
 
-  const show:Show = async (n: number) => {
+  const show: Show = async (n: number) => {
     await Wait(n);
     draw();
     setCanvas(canvas)
@@ -161,10 +159,10 @@ function App(this: any, { list, sortFn,width=200,height=200 }: { list: Array<num
     }
   }, [context])
   return (
-      <canvas ref={canvasRef} id='andy-sortui' className='andy-sortui'
-        height={height}
-        width={width}
-      />
+    <canvas ref={canvasRef} id='andy-sortui' className='andy-sortui'
+      height={height}
+      width={width}
+    />
   );
 }
 
