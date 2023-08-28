@@ -1,30 +1,21 @@
 {
   "compilerOptions": {
-    /* Type Checking */
-    "strict": true,
-    "strictBindCallApply": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitOverride": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": true,
-    "noImplicitReturns": false,
-    /* Modules */
-    "baseUrl": ".",
-    "module": "ESNext",
-    /* Emit */
-    "declaration": true,
-    "declarationMap": false,
-    "inlineSourceMap": false,
+    "module": "esnext",
+    "target": "es2015",
     "outDir": "dist",
-    /* Interop Constraints */
-    "allowSyntheticDefaultImports": true,
-    "isolatedModules": true,
-    /* Language and Environment */
-    "jsx": "react",
     "lib": ["dom", "esnext"],
-    "target": "ESNext",
-    /* Completeness */
-    "skipLibCheck": true
+    "allowJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
+    "declaration": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }

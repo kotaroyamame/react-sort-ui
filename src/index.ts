@@ -1,5 +1,5 @@
 
 import ReactSortUI from './App';
-export { ReactSortUI };
+export { ReactSortUI } ;
 export { NList } from './utils';
 export type { Show }from'./types'

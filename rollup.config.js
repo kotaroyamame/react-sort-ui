@@ -1,46 +1,22 @@
-import { swc } from 'rollup-plugin-swc3'
-import { nodeResolve } from '@rollup/plugin-node-resolve'
-import css from 'rollup-plugin-import-css'
-import pkg from './package.json'
-import typescript from '@rollup/plugin-typescript';
+const postcss = require("rollup-plugin-postcss");
+const typescript = require("@rollup/plugin-typescript");
+const peerDepsExternal = require("rollup-plugin-peer-deps-external");
+const resolve = require("@rollup/plugin-node-resolve").default;
+const commonjs = require("@rollup/plugin-commonjs");
 
-const extensions = ['.js', '.ts', '.tsx','css']
-const external = _ => /node_modules/.test(_) && !/@swc\/helpers/.test(_)
-const plugins = targets => [
-  nodeResolve({
-    extensions
-  }),
-  swc({
-    tsconfig: false,
-    jsc: {
-      parser: {
-        syntax: 'typescript',
-        tsx: true
-      },
-      transform: {
-        react: {
-          useBuiltins: true
-        }
-      },
-      externalHelpers: true
-    },
-    env: {
-      targets
-    },
-    module: {
-      type: 'es6'
-    },
-    sourceMaps: true
-  })
-]
-
-export default {
-  input: 'src/index.ts',
+module.exports = {
+  input: "src/index.ts",
   output: {
-    file: `dist/index.cjs.js`,
-    format: 'cjs',
-    exports: 'auto',
+    dir: "dist",
+    format: "cjs",
   },
-  plugins: [typescript(), css(),nodeResolve()],
-  external
-}
+  plugins: [
+    peerDepsExternal(),
+    resolve(),
+    typescript(),
+    commonjs(),
+    postcss({
+      modules: true,
+    }),
+  ],
+};
