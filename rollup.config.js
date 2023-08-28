@@ -9,6 +9,7 @@ module.exports = {
     dir: 'dist',
     format: 'esm'
   },
+  external: ['react', 'react-dom'],
   plugins: [
     peerDepsExternal(),
     nodeResolve({
