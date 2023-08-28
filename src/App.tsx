@@ -162,7 +162,7 @@ const App = forwardRef(function App (
   function initContext () {
     const _canvas = canvasRef.current
     if (_canvas != null) {
-      setCanvas(canvas)
+      setCanvas(_canvas)
       const canvasContext = _canvas.getContext('2d')
       if (canvasContext) {
         setContext(canvasContext)
