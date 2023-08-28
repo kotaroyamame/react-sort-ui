@@ -11,7 +11,13 @@ module.exports = {
   },
   plugins: [
     peerDepsExternal(),
-    nodeResolve({extensions:[".js",".jsx",".ts",".tsx",".css",".mjs",".cjs"]}),
+    nodeResolve(
+{
+custonResolveOptions:{
+	moduleDirectory:"node_modules",
+},
+extensions:[".js",".jsx",".ts",".tsx",".css",".mjs",".cjs"]}
+),
     typescript(),
     commonjs(),
     postcss({
