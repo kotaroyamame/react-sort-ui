@@ -20,7 +20,7 @@
     "web-vitals": "^2.1.4"
   },
   "files": [
-    "src"
+    "dist"
   ],
   "main": "./dist/index.ts",
   "import": "./dist/index.cjs.js",
