@@ -1,0 +1,1 @@
+export type Show = (delayTimeMs:number) => Promise<void>;
