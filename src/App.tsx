@@ -42,8 +42,8 @@ const App = forwardRef(function App (
   let color: string = '#000'
   let hilidhtColor: string = '#f00'
   let margin: number = 1.1
-  let stageW: number = 1000
-  let stageH: number = 1000
+  let stageW: number =  width
+  let stageH: number = height
   let fieldWidth: number = 0
   let fieldHeight: number = 0
   let widthCoeff: number = 1
@@ -187,6 +187,8 @@ const App = forwardRef(function App (
   useEffect(() => {
     if (context !== null && autoPlay) {
       sort(sList, show)
+    }else{
+      draw();
     }
   }, [context])
   useImperativeHandle(
