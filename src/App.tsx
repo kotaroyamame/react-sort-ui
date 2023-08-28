@@ -47,9 +47,9 @@ const App = forwardRef(function App (
   let fieldWidth: number = 0
   let fieldHeight: number = 0
   let widthCoeff: number = 1
-  const reset = () => {
+  const reset = (_context:CanvasRenderingContext2D | null) => {
     sList.shuffle()
-    draw(context)
+    draw(_context)
   }
 
   function draw (_context:CanvasRenderingContext2D | null) {
@@ -184,15 +184,12 @@ const App = forwardRef(function App (
     ref,
     () => {
       return {
-        Reset () {
-          reset()
-        },
-        Start () {
-          sort(sList, show)
-        }
+        Reset:reset.bind({},context)
+        ,
+        Start:sort.bind({},sList, show)
       }
     },
-    []
+    [context]
   )
 
   return (
