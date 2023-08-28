@@ -42,7 +42,7 @@ const App = forwardRef(function App (
   let color: string = '#000'
   let hilidhtColor: string = '#f00'
   let margin: number = 1.1
-  let stageW: number =  width
+  let stageW: number = width
   let stageH: number = height
   let fieldWidth: number = 0
   let fieldHeight: number = 0
@@ -58,6 +58,8 @@ const App = forwardRef(function App (
   }
   const reset = () => {
     sList.shuffle()
+    initContext()
+    draw()
   }
 
   function draw () {
@@ -123,7 +125,6 @@ const App = forwardRef(function App (
   const show: Show = async (n: number) => {
     await Wait(n)
     draw()
-    setCanvas(canvas)
   }
   const sort = sortFn
     ? sortFn.bind({}, sList, show)
@@ -158,7 +159,7 @@ const App = forwardRef(function App (
           last--
         }
       }
-  useEffect(() => {
+  function initContext () {
     const _canvas = canvasRef.current
     if (_canvas != null) {
       setCanvas(canvas)
@@ -167,6 +168,9 @@ const App = forwardRef(function App (
         setContext(canvasContext)
       }
     }
+  }
+  useEffect(() => {
+    initContext()
   }, [])
   useEffect(() => {
     if (window.ResizeObserver) {
@@ -187,8 +191,8 @@ const App = forwardRef(function App (
   useEffect(() => {
     if (context !== null && autoPlay) {
       sort(sList, show)
-    }else{
-      draw();
+    } else {
+      draw()
     }
   }, [context])
   useImperativeHandle(
