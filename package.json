@@ -22,10 +22,20 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/index.ts",
+  "main": "./src/index.ts",
   "import": "./dist/index.cjs.js",
   "exports": {
-    ".": "./dist/index.cjs.js"
+    ".": "./src/index.ts"
+  },
+  "publishConfig": {
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "exports": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.cjs.js",
+      "require": "./dist/index.cjs"
+    },
+    "directory": "package"
   },
   "types": "./dist/index.d.ts",
   "scripts": {
