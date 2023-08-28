@@ -49,28 +49,28 @@ const App = forwardRef(function App (
   let widthCoeff: number = 1
   const reset = () => {
     sList.shuffle()
-    draw()
+    draw(context)
   }
 
-  function draw () {
-    if (context == null) {
+  function draw (_context:CanvasRenderingContext2D | null) {
+    if (_context == null) {
       return
     }
     // 画面をリセット
-    context.clearRect(0, 0, stageW, stageH)
+    _context.clearRect(0, 0, stageW, stageH)
     // context.lineWidth = 10;
 
-    context.strokeStyle = color
+    _context.strokeStyle = color
     fieldWidth = stageW
     fieldHeight = Math.min(stageW, stageH)
     widthCoeff = fieldWidth / (sList.getSize() * margin)
     sList.getList().forEach((n, i) => {
-      if (context == null) {
+      if (_context == null) {
         return
       }
-      context.beginPath()
+      _context.beginPath()
 
-      context.lineWidth =
+      _context.lineWidth =
         (fieldWidth / (sList.getSize() * 2)) * canvasController.zoom
       const fWidth = fieldWidth * canvasController.zoom
       const fHeight = fieldHeight * canvasController.zoom
@@ -87,34 +87,34 @@ const App = forwardRef(function App (
       const Effect = sList.getEffect(i)
 
       if (Effect.check) {
-        context.lineWidth = 1
-        context.strokeStyle = hilidhtColor
-        context.fillStyle = hilidhtColor
-        context.beginPath()
-        context.moveTo(x, y - 5)
-        context.lineTo(x - 15, y - 20)
-        context.lineTo(x + 15, y - 20) //直線を追加して三角形にします。
-        context.closePath() //moveTo()で指定した始点に向けて線を引き、領域を閉じます。
-        context.fill()
-        context.stroke()
-        context.beginPath()
+        _context.lineWidth = 1
+        _context.strokeStyle = hilidhtColor
+        _context.fillStyle = hilidhtColor
+        _context.beginPath()
+        _context.moveTo(x, y - 5)
+        _context.lineTo(x - 15, y - 20)
+        _context.lineTo(x + 15, y - 20) //直線を追加して三角形にします。
+        _context.closePath() //moveTo()で指定した始点に向けて線を引き、領域を閉じます。
+        _context.fill()
+        _context.stroke()
+        _context.beginPath()
       }
-      context.strokeStyle = color
+      _context.strokeStyle = color
       if (Effect.hilight) {
-        context.strokeStyle = hilidhtColor
+        _context.strokeStyle = hilidhtColor
       }
 
-      context.lineWidth =
+      _context.lineWidth =
         (fieldWidth / (sList.getSize() * 2)) * canvasController.zoom
-      context.moveTo(x, y)
-      context.lineTo(x, fHeight - (fHeight * margin - fHeight) / 2)
-      context.stroke()
+      _context.moveTo(x, y)
+      _context.lineTo(x, fHeight - (fHeight * margin - fHeight) / 2)
+      _context.stroke()
     })
   }
 
   const show: Show = async (n: number) => {
     await Wait(n)
-    draw()
+    draw(context)
   }
   const sort = sortFn
     ? sortFn.bind({}, sList, show)
@@ -177,7 +177,7 @@ const App = forwardRef(function App (
     if (context !== null && autoPlay) {
       sort(sList, show)
     } else {
-      draw()
+      draw(context)
     }
   }, [context])
   useImperativeHandle(
