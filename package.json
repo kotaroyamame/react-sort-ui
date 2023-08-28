@@ -22,23 +22,19 @@
   "files": [
     "dist"
   ],
-  "main": "./src/index.ts",
   "import": "./dist/index.cjs.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "exports": {
-    ".": "./src/index.ts"
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.cjs.js",
+    "require": "./dist/index.cjs"
   },
-  "publishConfig": {
-    "main": "./dist/index.cjs",
-    "module": "./dist/index.js",
-    "exports": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.cjs.js",
-      "require": "./dist/index.cjs"
-    },
-    "directory": "package"
-  },
+  "directory": "package",
   "types": "./dist/index.d.ts",
   "scripts": {
+    "prepublishOnly": "pnpm test && pnpm build && del ./package && clean-publish",
+    "postpublish": "del ./package",
     "build": "rollup -c",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
