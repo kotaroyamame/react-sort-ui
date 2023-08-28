@@ -3,10 +3,10 @@ import './App.css';
 import React, { useState, useEffect, useLayoutEffect, useRef, Ref } from "react"
 import ReactDOM from "react-dom"
 
-import { NList, CanvasController,Wait } from "./utils";
+import { NList, CanvasController, Wait } from "./utils";
 import { Show, SortFn } from './types';
 
-function App(this: any, { list, sortFn, width = 200, height = 200 }: { list: Array<number>, width?: number, height?: number, sortFn?: SortFn, ref?: any }) {
+function App({ list, sortFn, width = 200, height = 200 }: { list: Array<number>, width?: number, height?: number, sortFn?: SortFn, ref?: any }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
@@ -99,7 +99,7 @@ function App(this: any, { list, sortFn, width = 200, height = 200 }: { list: Arr
     draw();
     setCanvas(canvas)
   }
-  const sort = sortFn ? sortFn.bind(this, sList, show) : async (list: NList, show: Show) => {
+  const sort = sortFn ? sortFn.bind({}, sList, show) : async (list: NList, show: Show) => {
     console.log('asd');
     let isSwap = true;
     let last = list.getSize() - 1;
@@ -139,18 +139,20 @@ function App(this: any, { list, sortFn, width = 200, height = 200 }: { list: Arr
 
   }, [])
   useEffect(() => {
-    const observer = new ResizeObserver((entries) => {
-      entries.forEach((el) => {
-        setWidth(el.contentRect.width);
-        resize();
+    if (window.ResizeObserver) {
+      const observer = new window.ResizeObserver((entries) => {
+        entries.forEach((el) => {
+          setWidth(el.contentRect.width);
+          resize();
+        });
       });
-    });
-    if (canvasRef.current) {
-      observer.observe(canvasRef.current);
+      if (canvasRef.current) {
+        observer.observe(canvasRef.current);
+      }
+      return () => {
+        observer.disconnect();
+      };
     }
-    return () => {
-      observer.disconnect();
-    };
 
   }, [])
   useEffect(() => {
