@@ -35,7 +35,10 @@ const App = forwardRef(function App (
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(
     canvasRef.current
   )
-  const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
+  const __canvas = canvasRef.current
+  const [context, setContext] = useState<CanvasRenderingContext2D | null>(
+    __canvas?.getContext('2d') || null
+  )
   const [loaded, setLoaded] = useState(false)
   const [sList, setSList] = useState(new NList(list))
   const [fWidth, setWidth] = React.useState(0)
@@ -163,6 +166,9 @@ const App = forwardRef(function App (
         }
       }
   function initContext (cRef: HTMLCanvasElement | null) {
+    if (canvas && context) {
+      return
+    }
     const _canvas = cRef
     if (_canvas != null) {
       const canvasContext = _canvas.getContext('2d')
