@@ -6,7 +6,7 @@ import ReactDOM from "react-dom"
 import { NList, CanvasController, Wait } from "./utils";
 import { Show, SortFn } from './types';
 
-function App({ list, sortFn, width = 200, height = 200 }: { list: Array<number>, width?: number, height?: number, sortFn?: SortFn, ref?: any }) {
+function App({ list, sortFn, width = 200, height = 200 ,autoPlay=false}: { list: Array<number>, width?: number, height?: number, sortFn?: SortFn, ref?: any ,autoPlay?:boolean}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
@@ -156,7 +156,7 @@ function App({ list, sortFn, width = 200, height = 200 }: { list: Array<number>,
 
   }, [])
   useEffect(() => {
-    if (context !== null) {
+    if (context !== null&&autoPlay) {
       sort(sList, show);
     }
   }, [context])
