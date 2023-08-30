@@ -45,7 +45,7 @@ type SortFn = (l: NList, f: Show) => void;
 The Show function pauses the sorting and updates the canvas.
 Put it in any position you like in any sort function!
 
-```
+```TypeScript
 const show: Show = async (n: number) => {
     await Wait(n)
     draw(context)
@@ -54,7 +54,7 @@ const show: Show = async (n: number) => {
 
 NList
 
-```
+```TypeScript
 class NList {
 
   constructor(list: Array<number>) 
@@ -77,7 +77,7 @@ class NList {
 
 ### For example.
 
-```
+```TypeScript
 import { ReactSortUI, SortFn} from '@iid/react-sort-ui'
 
 ...
